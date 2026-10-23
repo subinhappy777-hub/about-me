@@ -12,6 +12,14 @@
     li { margin: 2px 0; line-height: 1.4; }
     .wrap { display: flex; gap: 24px; max-width: 1200px; margin: 0 auto; }
     .col { flex: 1; min-width: 0; }
+    /* 카드5: 펼치기 패널 */
+    .panel { display: none; }
+    .panel.open { display: block; }
+    .toggle-btn { cursor: pointer; font: inherit; padding: 4px 10px; margin: 4px 0; }
+    /* 카드5: 움직임 줄이기 설정 존중 (큰 움직임 없음, 안전장치) */
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -44,22 +52,36 @@
   <h2>나의 강점과 취향</h2>
 
   <h3>1. 끈기</h3>
-  <ul>
+  <button type="button" class="toggle-btn" aria-expanded="false" aria-controls="panel-1">
+    근거 보기
+  </button>
+  <div id="panel-1" class="panel">
+    <ul>
     <li><strong>상황:</strong> 가격 계산 과제에서 count를 바꿨을 때 결과가 예상과 달랐다.</li>
     <li><strong>행동:</strong> 코드를 한 줄씩 지우며 print로 중간값을 확인했다.</li>
     <li><strong>결과:</strong> 14000과 17000이 정확히 나오는 코드를 완성했다.</li>
     <li><strong>근거:</strong> 실행 결과 화면(개인정보 없음).</li>
-  </ul>
+    </ul>
+  </div>
 
   <h3>2. 정리 정돈</h3>
-  <ul>
-    <li><strong>상황:</strong> 변수 이름이 x, y라서 의미를 잊었다.</li>
-    <li><strong>행동:</strong> price, count, fee처럼 뜻이 드러나는 이름으로 바꿔 표로 정리했다.</li>
-    <li><strong>결과:</strong> 코드만 봐도 계산 순서를 알 수 있게 되었다.</li>
-    <li><strong>근거:</strong> 정리한 표.</li>
-  </ul>
+  <button type="button" class="toggle-btn" aria-expanded="false" aria-controls="panel-2">
+    근거 보기
+  </button>
+  <div id="panel-2" class="panel">
+    <ul>
+      <li><strong>상황:</strong> 변수 이름이 x, y라서 의미를 잊었다.</li>
+      <li><strong>행동:</strong> price, count, fee처럼 뜻이 드러나는 이름으로 바꿔 표로 정리했다.</li>
+      <li><strong>결과:</strong> 코드만 봐도 계산 순서를 알 수 있게 되었다.</li>
+      <li><strong>근거:</strong> 정리한 표.</li>
+    </ul>
+  </div>
 
   <h3>3. 관심사: 코딩</h3>
+  <button type="button" class="toggle-btn" aria-expanded="false" aria-controls="panel-3">
+    근거 보기
+  </button>
+  <div id="panel-3" class="panel">
   <ul>
     <li><strong>상황:</strong> 같은 계산을 여러 번 해야 했다.</li>
     <li><strong>행동:</strong> 파이썬으로 price * count + fee 식을 작성했다.</li>
@@ -68,5 +90,15 @@
   </ul>
 </div>
 </div>
+</div> 
+    <script>
+    document.querySelectorAll('.toggle-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var panel = document.getElementById(btn.getAttribute('aria-controls'));
+        var open = panel.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+    });
+  </script>
 </body>
 </html>
