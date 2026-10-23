@@ -2,14 +2,15 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>나를 소개합니다 — 공개 범위 점검표</title>
   <style>
     :root {
       --bg: #f6f8fb;
       --card: #ffffff;
-      --text: #1f2937;        /* 대비 12:1 이상 */
-      --muted: #4b5563;       /* 대비 7:1 이상 */
-      --accent: #1d4ed8;      /* 파랑, 흰 배경 대비 7:1 이상 */
+      --text: #1f2937;
+      --muted: #4b5563;
+      --accent: #1d4ed8;
       --accent-weak: #e8efff;
       --border: #d7dee8;
       --radius: 12px;
@@ -26,7 +27,6 @@
       line-height: 1.6;
     }
 
-    /* 카드 컨테이너: 기존 .wrap/.col 구조를 카드처럼 */
     .wrap {
       display: flex;
       gap: 24px;
@@ -43,7 +43,6 @@
       box-shadow: 0 6px 24px rgba(15, 23, 42, 0.06);
     }
 
-    /* 제목 계층 */
     h1 {
       margin: 0 0 20px;
       font-size: 28px;
@@ -70,10 +69,8 @@
     li { margin: 4px 0; }
     li strong { color: var(--accent); }
 
-    /* 공개/비공개 목록을 살짝 구분 */
     h2 + ul { background: var(--accent-weak); border-radius: 8px; padding: 10px 10px 10px 28px; }
 
-    /* 펼치기 버튼 */
     .toggle-btn {
       cursor: pointer;
       font: inherit;
@@ -90,14 +87,13 @@
     .toggle-btn:hover { background: #dbe6ff; }
     .toggle-btn:active { background: #cddcff; }
 
-    /* 키보드 포커스 표시 (매우 중요: 지우지 마세요) */
     .toggle-btn:focus-visible,
-    a:focus-visible {
+    a:focus-visible,
+    [contenteditable="true"]:focus-visible {
       outline: 3px solid #111827;
       outline-offset: 2px;
     }
 
-    /* 펼치기 패널 */
     .panel { display: none; }
     .panel.open { display: block; }
     .panel ul {
@@ -108,97 +104,269 @@
       margin: 8px 0 0;
     }
 
-    /* 움직임 줄이기 설정 존중 */
     @media (prefers-reduced-motion: reduce) {
       * { transition: none !important; animation: none !important; }
     }
 
-    /* 좁은 화면 */
     @media (max-width: 560px) {
       body { padding: 16px 12px; }
       .col { padding: 20px 18px; }
       h1 { font-size: 23px; }
     }
+
+    /* ===== 댓글 영역 ===== */
+    .comment-box { margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--border); }
+    .comment-box label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+    .comment-box textarea {
+      width: 100%; min-height: 56px; resize: vertical;
+      font: inherit; font-size: 14px; padding: 8px 10px;
+      border: 1px solid var(--border); border-radius: 8px;
+      background: #fff; color: var(--text);
+    }
+    .comment-box textarea:focus-visible { outline: 3px solid #111827; outline-offset: 2px; }
+    .comment-box .btn-row { margin-top: 6px; display: flex; gap: 8px; }
+    .comment-list { list-style: none; padding: 0; margin: 10px 0 0; }
+    .comment-list li {
+      background: var(--accent-weak); border-radius: 8px;
+      padding: 8px 12px; margin: 6px 0; font-size: 14px;
+      display: flex; justify-content: space-between; gap: 8px;
+    }
+    .comment-list .del {
+      border: 0; background: transparent; cursor: pointer;
+      color: #b91c1c; font-size: 13px; text-decoration: underline;
+    }
+    .comment-list .del:focus-visible { outline: 3px solid #111827; outline-offset: 2px; }
+
+    /* ===== 페이지 전체 편집 ===== */
+    .edit-bar {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      background: var(--accent-weak); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 14px; margin: 0 0 14px;
+    }
+    .edit-bar .status { font-size: 12px; color: var(--muted); }
+
+    [contenteditable="true"] {
+      background: #fff; border: 1px dashed transparent;
+      border-radius: 6px; padding: 1px 4px;
+    }
+    [contenteditable="true"]:hover { border-color: var(--border); }
+    [contenteditable="true"]:focus {
+      border-color: var(--accent); background: #fffef5;
+    }
+    .edit-hint {
+      font-size: 12px; color: var(--muted);
+      background: #fff8e1; border: 1px solid #f0e0a0;
+      border-radius: 6px; padding: 6px 10px; margin: 0 0 14px;
+    }
   </style>
 </head>
-  
+
 <body>
   <div class="wrap">
   <div class="col">
-  <h1>나를 소개합니다</h1>
 
-  <!-- T01-C03: 대상과 목적 1문장 -->
+  <!-- ===== 편집 도구 ===== -->
+  <div class="edit-bar" role="group" aria-label="페이지 편집 도구">
+    <button type="button" class="toggle-btn" id="saveAll">전체 저장</button>
+    <button type="button" class="toggle-btn" id="resetAll">전체 되돌리기</button>
+    <span class="status" id="editStatus" aria-live="polite"></span>
+  </div>
+  <p class="edit-hint">점선 안의 글자를 클릭해 직접 수정할 수 있습니다. 수정 후 <strong>전체 저장</strong>을 누르세요. 개인정보(실명·연락처 등)는 입력하지 마세요.</p>
+
+  <h1><span contenteditable="true" data-edit="title">나를 소개합니다</span></h1>
+
   <h2>대상과 목적</h2>
-  <p>이 페이지는 나를 처음 만나는 사람에게 나의 관심사와 활동을 소개하기 위한 페이지입니다.</p>
+  <p><span contenteditable="true" data-edit="purpose">이 페이지는 나를 처음 만나는 사람에게 나의 관심사와 활동을 소개하기 위한 페이지입니다.</span></p>
 
-  <!-- T01-C04: 공개할 정보 3개 이상 -->
   <h2>공개할 정보</h2>
   <ul>
-    <li>닉네임: (여기에 닉네임)</li>
-    <li>관심사·취미: 코딩, (추가 취미)</li>
-    <li>좋아하는 것/목표: 웹 개발자 되기</li>
+    <li>github: <span contenteditable="true" data-edit="github">https://github.com/subinhappy777-hub</span></li>
+    <li>관심사·취미: <span contenteditable="true" data-edit="hobby">코딩, 자기계발</span></li>
+    <li>좋아하는 것/목표: <span contenteditable="true" data-edit="goal">이른 아침 독서하기 / IT 관련 회사 취업하기</span></li>
   </ul>
 
-  <!-- T01-C05: 공개하지 않을 정보 3개 이상 -->
   <h2>공개하지 않을 정보</h2>
   <ul>
-    <li>집 주소·상세 거주지</li>
-    <li>전화번호·개인 이메일</li>
-    <li>비밀번호·계정 정보</li>
+    <li>집 주소</li>
+    <li>전화번호</li>
+    <li>개인 이메일</li>
   </ul>
 
   <h2>한 줄 소개</h2>
-  <p>안녕하세요, (닉네임)입니다. 코딩을 좋아하고 웹 개발자를 목표로 공부하고 있습니다.</p>
+  <p><span contenteditable="true" data-edit="intro">안녕하세요, 박수빈입니다. 자기계발을 좋아하고, 코딩에 애정을 가지며 IT관련 회사를 취업하기를 목표로 공부하고 있습니다.</span></p>
+
   <h2>나의 강점과 취향</h2>
 
-  <h3>1. 끈기</h3>
+  <!-- ===== 강점 1 ===== -->
+  <h3><span contenteditable="true" data-edit="s1-title">1. 끈기와 책임감</span></h3>
   <button type="button" class="toggle-btn" aria-expanded="false" aria-controls="panel-1">
     근거 보기
   </button>
   <div id="panel-1" class="panel">
     <ul>
-    <li><strong>상황:</strong> 가격 계산 과제에서 count를 바꿨을 때 결과가 예상과 달랐다.</li>
-    <li><strong>행동:</strong> 코드를 한 줄씩 지우며 print로 중간값을 확인했다.</li>
-    <li><strong>결과:</strong> 14000과 17000이 정확히 나오는 코드를 완성했다.</li>
-    <li><strong>근거:</strong> 실행 결과 화면(개인정보 없음).</li>
+      <li><strong>상황:</strong> <span contenteditable="true" data-edit="s1-situation">음성 합성 모델의 연산량과 합성 시간을 줄이면서 음질까지 유지해야 하는 과제에 직면했다.</span></li>
+      <li><strong>행동:</strong> <span contenteditable="true" data-edit="s1-action">Depthwise Separable LVC 기반 모델을 구현하고 성능을 반복적으로 비교·분석하며 개선 방향을 탐색했다.</span></li>
+      <li><strong>결과:</strong> <span contenteditable="true" data-edit="s1-result">음질을 유지하면서 연산량과 합성 시간을 줄였고, 어려운 문제도 꾸준히 해결하는 자세의 중요성을 배웠다.</span></li>
+      <li><strong>근거:</strong> <span contenteditable="true" data-edit="s1-evidence">Diffusion-TTS 보코더 경량화 및 고속화 연구.</span></li>
     </ul>
+    <div class="comment-box">
+      <label for="comment-1">이 강점에 대한 의견</label>
+      <textarea id="comment-1" data-key="comment-1" placeholder="의견을 남겨 주세요"></textarea>
+      <div class="btn-row">
+        <button type="button" class="toggle-btn save-comment" data-key="comment-1">댓글 저장</button>
+      </div>
+      <ul class="comment-list" id="list-1" aria-live="polite"></ul>
+    </div>
   </div>
 
-  <h3>2. 정리 정돈</h3>
+  <!-- ===== 강점 2 ===== -->
+  <h3><span contenteditable="true" data-edit="s2-title">2. 문제 분석과 개선 — 원인을 찾고 해결하는 과정</span></h3>
   <button type="button" class="toggle-btn" aria-expanded="false" aria-controls="panel-2">
     근거 보기
   </button>
   <div id="panel-2" class="panel">
     <ul>
-      <li><strong>상황:</strong> 변수 이름이 x, y라서 의미를 잊었다.</li>
-      <li><strong>행동:</strong> price, count, fee처럼 뜻이 드러나는 이름으로 바꿔 표로 정리했다.</li>
-      <li><strong>결과:</strong> 코드만 봐도 계산 순서를 알 수 있게 되었다.</li>
-      <li><strong>근거:</strong> 정리한 표.</li>
+      <li><strong>상황:</strong> <span contenteditable="true" data-edit="s2-situation">태양광 발전량 예측 프로젝트에서 데이터 불일치로 결측치가 발생하면서 데이터 품질의 중요성을 체감했다.</span></li>
+      <li><strong>행동:</strong> <span contenteditable="true" data-edit="s2-action">문제의 원인을 분석하고 데이터를 전처리했으며, 앙상블 모델과 Flask를 활용해 예측 결과를 확인할 수 있도록 구현했다.</span></li>
+      <li><strong>결과:</strong> <span contenteditable="true" data-edit="s2-result">단순히 모델을 구현하는 것을 넘어 데이터 처리부터 서비스 구현까지 연결하는 경험을 쌓았다.</span></li>
+      <li><strong>근거:</strong> <span contenteditable="true" data-edit="s2-evidence">태양광 발전량 예측 프로젝트.</span></li>
     </ul>
+    <div class="comment-box">
+      <label for="comment-2">이 강점에 대한 의견</label>
+      <textarea id="comment-2" data-key="comment-2" placeholder="의견을 남겨 주세요"></textarea>
+      <div class="btn-row">
+        <button type="button" class="toggle-btn save-comment" data-key="comment-2">댓글 저장</button>
+      </div>
+      <ul class="comment-list" id="list-2" aria-live="polite"></ul>
+    </div>
   </div>
 
-  <h3>3. 관심사: 코딩</h3>
+  <!-- ===== 강점 3 ===== -->
+  <h3><span contenteditable="true" data-edit="s3-title">3. AI 기술에 대한 관심 — 문제 해결을 넘어 실생활로</span></h3>
   <button type="button" class="toggle-btn" aria-expanded="false" aria-controls="panel-3">
     근거 보기
   </button>
   <div id="panel-3" class="panel">
-  <ul>
-    <li><strong>상황:</strong> 같은 계산을 여러 번 해야 했다.</li>
-    <li><strong>행동:</strong> 파이썬으로 price * count + fee 식을 작성했다.</li>
-    <li><strong>결과:</strong> 개수만 바꿔도 결과가 바로 나오는 프로그램을 만들었다.</li>
-    <li><strong>근거:</strong> GitHub 공개 코드.</li>
-  </ul>
-</div>
-</div>
-</div> 
-    <script>
-    document.querySelectorAll('.toggle-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var panel = document.getElementById(btn.getAttribute('aria-controls'));
-        var open = panel.classList.toggle('open');
-        btn.setAttribute('aria-expanded', String(open));
-      });
+    <ul>
+      <li><strong>상황:</strong> <span contenteditable="true" data-edit="s3-situation">기술적 문제를 해결하는 경험을 바탕으로 AI를 실제 생활의 불편함을 줄이는 데 활용하고 싶었다.</span></li>
+      <li><strong>행동:</strong> <span contenteditable="true" data-edit="s3-action">시각장애인의 보행 안전을 지원하기 위해 YOLOv8 객체 탐지와 단안 깊이 추정 기술을 결합했다.</span></li>
+      <li><strong>결과:</strong> <span contenteditable="true" data-edit="s3-result">장애물과의 거리 및 위험도를 시각화하며 AI 기술의 실생활 활용 가능성을 탐구했다.</span></li>
+      <li><strong>근거:</strong> <span contenteditable="true" data-edit="s3-evidence">시각장애인 보행 안전 프로젝트.</span></li>
+    </ul>
+    <div class="comment-box">
+      <label for="comment-3">이 강점에 대한 의견</label>
+      <textarea id="comment-3" data-key="comment-3" placeholder="의견을 남겨 주세요"></textarea>
+      <div class="btn-row">
+        <button type="button" class="toggle-btn save-comment" data-key="comment-3">댓글 저장</button>
+      </div>
+      <ul class="comment-list" id="list-3" aria-live="polite"></ul>
+    </div>
+  </div>
+
+  </div>
+  </div>
+
+  <script>
+  // ===== 1) 펼치기 버튼 (aria-controls 있는 버튼만) =====
+  document.querySelectorAll('.toggle-btn[aria-controls]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var panel = document.getElementById(btn.getAttribute('aria-controls'));
+      if (!panel) return;
+      var open = panel.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(open));
     });
+  });
+
+  // ===== 2) 댓글 저장/불러오기 =====
+  function loadComments(key, listEl) {
+    var arr = JSON.parse(localStorage.getItem(key) || "[]");
+    listEl.innerHTML = "";
+    arr.forEach(function (text, i) {
+      var li = document.createElement("li");
+      var span = document.createElement("span");
+      span.textContent = text; // XSS 방지
+      var del = document.createElement("button");
+      del.type = "button";
+      del.className = "del";
+      del.textContent = "삭제";
+      del.setAttribute("aria-label", "댓글 삭제");
+      del.addEventListener("click", function () {
+        var cur = JSON.parse(localStorage.getItem(key) || "[]");
+        cur.splice(i, 1);
+        localStorage.setItem(key, JSON.stringify(cur));
+        loadComments(key, listEl);
+      });
+      li.appendChild(span);
+      li.appendChild(del);
+      listEl.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll(".save-comment").forEach(function (btn) {
+    var key = btn.getAttribute("data-key");
+    var ta = document.querySelector('textarea[data-key="' + key + '"]');
+    var listEl = document.getElementById("list-" + key.split("-")[1]);
+    if (!ta || !listEl) return;
+    loadComments(key, listEl);
+    btn.addEventListener("click", function () {
+      var text = ta.value.trim();
+      if (!text) return;
+      var arr = JSON.parse(localStorage.getItem(key) || "[]");
+      arr.push(text);
+      localStorage.setItem(key, JSON.stringify(arr));
+      ta.value = "";
+      loadComments(key, listEl);
+    });
+  });
+
+  // ===== 3) 페이지 전체 편집 저장/되돌리기 =====
+  var pageDefaults = {};
+  document.querySelectorAll('[data-edit]').forEach(function (el) {
+    pageDefaults[el.getAttribute('data-edit')] = el.textContent;
+  });
+
+  function applyPageSaved() {
+    document.querySelectorAll('[data-edit]').forEach(function (el) {
+      var k = el.getAttribute('data-edit');
+      var v = localStorage.getItem('page:' + k);
+      if (v !== null) el.textContent = v;
+    });
+  }
+  applyPageSaved();
+
+  var saveAllBtn = document.getElementById('saveAll');
+  var resetAllBtn = document.getElementById('resetAll');
+  var editStatus = document.getElementById('editStatus');
+
+  saveAllBtn.addEventListener('click', function () {
+    document.querySelectorAll('[data-edit]').forEach(function (el) {
+      var k = el.getAttribute('data-edit');
+      localStorage.setItem('page:' + k, el.textContent.trim());
+    });
+    editStatus.textContent = '전체 저장됨 ✓';
+    setTimeout(function () { editStatus.textContent = ''; }, 2000);
+  });
+
+  resetAllBtn.addEventListener('click', function () {
+    if (!confirm('저장한 수정 내용을 모두 지우고 처음 상태로 되돌릴까요?')) return;
+    document.querySelectorAll('[data-edit]').forEach(function (el) {
+      var k = el.getAttribute('data-edit');
+      localStorage.removeItem('page:' + k);
+      el.textContent = pageDefaults[k];
+    });
+    editStatus.textContent = '처음 상태로 되돌림';
+    setTimeout(function () { editStatus.textContent = ''; }, 2000);
+  });
+
+  // 편집 영역에서 Enter로 편집 종료
+  document.querySelectorAll('[data-edit]').forEach(function (el) {
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        el.blur();
+      }
+    });
+  });
   </script>
 </body>
 </html>
