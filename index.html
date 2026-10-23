@@ -158,6 +158,80 @@
       background: #fff8e1; border: 1px solid #f0e0a0;
       border-radius: 6px; padding: 6px 10px; margin: 0 0 14px;
     }
+    .profile {
+      text-align: center;
+      margin: 0 0 28px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .avatar {
+      width: 96px; height: 96px;
+      margin: 0 auto 14px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 44px;
+      background: linear-gradient(135deg, #dbe6ff 0%, #e8efff 60%, #ffffff 100%);
+      border: 3px solid var(--accent);
+      box-shadow: 0 8px 20px rgba(29, 78, 216, 0.15);
+    }
+    .profile h1 {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin: 0 0 6px;
+    }
+    .profile .tagline {
+      color: var(--muted);
+      font-size: 15px;
+      margin: 0;
+    }
+
+    /* ===== 강점 카드 ===== */
+    .strength-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 16px 0;
+      background: #fcfdff;
+      transition: box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+    .strength-card:hover {
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+      border-color: #b9c8e6;
+    }
+    .strength-head {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 6px;
+    }
+    .strength-icon {
+      width: 36px; height: 36px; flex: 0 0 36px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      background: var(--accent-weak);
+    }
+    .strength-card h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    /* 강점별 색상 차별화 */
+    .strength-card.s1 .strength-icon { background: #e6f4ea; }
+    .strength-card.s2 .strength-icon { background: #fef3e6; }
+    .strength-card.s3 .strength-icon { background: #e8efff; }
+
+    /* ===== 요약 강조 박스 ===== */
+    .summary-box {
+      background: linear-gradient(135deg, #eef3ff, #ffffff);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 14px 18px;
+      margin: 10px 0 20px;
+      font-size: 15px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .strength-card { transition: none; }
+    }
   </style>
 </head>
 
@@ -173,7 +247,11 @@
   </div>
   <p class="edit-hint">점선 안의 글자를 클릭해 직접 수정할 수 있습니다. 수정 후 <strong>전체 저장</strong>을 누르세요. 개인정보(실명·연락처 등)는 입력하지 마세요.</p>
 
-  <h1><span contenteditable="true" data-edit="title">나를 소개합니다</span></h1>
+  <header class="profile">
+    <div class="avatar" aria-hidden="true">🌱</div>
+    <h1><span contenteditable="true" data-edit="title">박수빈</span></h1>
+    <p class="tagline"><span contenteditable="true" data-edit="tagline">끈기로 문제를 풀고, 배운 기술로 사람을 돕는 개발자</span></p>
+  </header>
 
   <h2>대상과 목적</h2>
   <p><span contenteditable="true" data-edit="purpose">이 페이지는 나를 처음 만나는 사람에게 나의 관심사와 활동을 소개하기 위한 페이지입니다.</span></p>
@@ -195,75 +273,92 @@
   <h2>한 줄 소개</h2>
   <p><span contenteditable="true" data-edit="intro">안녕하세요, 박수빈입니다. 자기계발을 좋아하고, 코딩에 애정을 가지며 IT관련 회사를 취업하기를 목표로 공부하고 있습니다.</span></p>
 
+  <h2>요약</h2>
+  <div class="summary-box">
+    <span contenteditable="true" data-edit="summary">저는 어려운 문제 앞에서도 쉽게 포기하지 않는 끈기와 책임감을 바탕으로, 문제의 원인을 분석하고 개선하는 과정을 즐깁니다. 이러한 경험은 새로운 기술에 대한 호기심과 도전으로 이어졌으며, 배운 기술을 실제 사람들의 불편함을 해결하는 데 활용하고자 노력하고 있습니다.</span>
+  </div>
+
   <h2>나의 강점과 취향</h2>
 
   <!-- ===== 강점 1 ===== -->
-  <h3><span contenteditable="true" data-edit="s1-title">1. 끈기와 책임감</span></h3>
-  <button type="button" class="toggle-btn" aria-expanded="false" aria-controls="panel-1">
-    근거 보기
-  </button>
-  <div id="panel-1" class="panel">
-    <ul>
-      <li><strong>상황:</strong> <span contenteditable="true" data-edit="s1-situation">음성 합성 모델의 연산량과 합성 시간을 줄이면서 음질까지 유지해야 하는 과제에 직면했다.</span></li>
-      <li><strong>행동:</strong> <span contenteditable="true" data-edit="s1-action">Depthwise Separable LVC 기반 모델을 구현하고 성능을 반복적으로 비교·분석하며 개선 방향을 탐색했다.</span></li>
-      <li><strong>결과:</strong> <span contenteditable="true" data-edit="s1-result">음질을 유지하면서 연산량과 합성 시간을 줄였고, 어려운 문제도 꾸준히 해결하는 자세의 중요성을 배웠다.</span></li>
-      <li><strong>근거:</strong> <span contenteditable="true" data-edit="s1-evidence">Diffusion-TTS 보코더 경량화 및 고속화 연구.</span></li>
-    </ul>
-    <div class="comment-box">
-      <label for="comment-1">이 강점에 대한 의견</label>
-      <textarea id="comment-1" data-key="comment-1" placeholder="의견을 남겨 주세요"></textarea>
-      <div class="btn-row">
-        <button type="button" class="toggle-btn save-comment" data-key="comment-1">댓글 저장</button>
+  <div class="strength-card s1">
+    <div class="strength-head">
+      <span class="strength-icon" aria-hidden="true">🌱</span>
+      <h3><span contenteditable="true" data-edit="s1-title">1. 끈기와 책임감 — 끝까지 해결하는 자세</span></h3>
+    </div>
+    <button type="button" class="toggle-btn" aria-expanded="false" aria-controls="panel-1">
+      근거 보기
+    </button>
+    <div id="panel-1" class="panel">
+      <ul>
+        <li><strong>상황:</strong> <span contenteditable="true" data-edit="s1-situation">음성 합성 모델의 연산량과 합성 시간을 줄이면서 음질까지 유지해야 하는 과제에 직면했다.</span></li>
+        <li><strong>행동:</strong> <span contenteditable="true" data-edit="s1-action">Depthwise Separable LVC 기반 모델을 구현하고 성능을 반복적으로 비교·분석하며 개선 방향을 탐색했다.</span></li>
+        <li><strong>결과:</strong> <span contenteditable="true" data-edit="s1-result">음질을 유지하면서 연산량과 합성 시간을 줄였고, 어려운 문제도 꾸준히 해결하는 자세의 중요성을 배웠다.</span></li>
+        <li><strong>근거:</strong> <span contenteditable="true" data-edit="s1-evidence">Diffusion-TTS 보코더 경량화 및 고속화 연구.</span></li>
+      </ul>
+      <div class="comment-box">
+        <label for="comment-1">이 강점에 대한 의견</label>
+        <textarea id="comment-1" data-key="comment-1" placeholder="의견을 남겨 주세요"></textarea>
+        <div class="btn-row">
+          <button type="button" class="toggle-btn save-comment" data-key="comment-1">댓글 저장</button>
+        </div>
+        <ul class="comment-list" id="list-1" aria-live="polite"></ul>
       </div>
-      <ul class="comment-list" id="list-1" aria-live="polite"></ul>
     </div>
   </div>
 
   <!-- ===== 강점 2 ===== -->
-  <h3><span contenteditable="true" data-edit="s2-title">2. 문제 분석과 개선 — 원인을 찾고 해결하는 과정</span></h3>
-  <button type="button" class="toggle-btn" aria-expanded="false" aria-controls="panel-2">
-    근거 보기
-  </button>
-  <div id="panel-2" class="panel">
-    <ul>
-      <li><strong>상황:</strong> <span contenteditable="true" data-edit="s2-situation">태양광 발전량 예측 프로젝트에서 데이터 불일치로 결측치가 발생하면서 데이터 품질의 중요성을 체감했다.</span></li>
-      <li><strong>행동:</strong> <span contenteditable="true" data-edit="s2-action">문제의 원인을 분석하고 데이터를 전처리했으며, 앙상블 모델과 Flask를 활용해 예측 결과를 확인할 수 있도록 구현했다.</span></li>
-      <li><strong>결과:</strong> <span contenteditable="true" data-edit="s2-result">단순히 모델을 구현하는 것을 넘어 데이터 처리부터 서비스 구현까지 연결하는 경험을 쌓았다.</span></li>
-      <li><strong>근거:</strong> <span contenteditable="true" data-edit="s2-evidence">태양광 발전량 예측 프로젝트.</span></li>
-    </ul>
-    <div class="comment-box">
-      <label for="comment-2">이 강점에 대한 의견</label>
-      <textarea id="comment-2" data-key="comment-2" placeholder="의견을 남겨 주세요"></textarea>
-      <div class="btn-row">
-        <button type="button" class="toggle-btn save-comment" data-key="comment-2">댓글 저장</button>
+  <div class="strength-card s2">
+    <div class="strength-head">
+      <span class="strength-icon" aria-hidden="true">🔍</span>
+      <h3><span contenteditable="true" data-edit="s2-title">2. 문제 분석과 개선 — 원인을 찾고 해결하는 과정</span></h3>
+    </div>
+    <button type="button" class="toggle-btn" aria-expanded="false" aria-controls="panel-2">
+      근거 보기
+    </button>
+    <div id="panel-2" class="panel">
+      <ul>
+        <li><strong>상황:</strong> <span contenteditable="true" data-edit="s2-situation">태양광 발전량 예측 프로젝트에서 데이터 불일치로 결측치가 발생하면서 데이터 품질의 중요성을 체감했다.</span></li>
+        <li><strong>행동:</strong> <span contenteditable="true" data-edit="s2-action">문제의 원인을 분석하고 데이터를 전처리했으며, 앙상블 모델과 Flask를 활용해 예측 결과를 확인할 수 있도록 구현했다.</span></li>
+        <li><strong>결과:</strong> <span contenteditable="true" data-edit="s2-result">단순히 모델을 구현하는 것을 넘어 데이터 처리부터 서비스 구현까지 연결하는 경험을 쌓았다.</span></li>
+        <li><strong>근거:</strong> <span contenteditable="true" data-edit="s2-evidence">태양광 발전량 예측 프로젝트.</span></li>
+      </ul>
+      <div class="comment-box">
+        <label for="comment-2">이 강점에 대한 의견</label>
+        <textarea id="comment-2" data-key="comment-2" placeholder="의견을 남겨 주세요"></textarea>
+        <div class="btn-row">
+          <button type="button" class="toggle-btn save-comment" data-key="comment-2">댓글 저장</button>
+        </div>
+        <ul class="comment-list" id="list-2" aria-live="polite"></ul>
       </div>
-      <ul class="comment-list" id="list-2" aria-live="polite"></ul>
     </div>
   </div>
 
   <!-- ===== 강점 3 ===== -->
-  <h3><span contenteditable="true" data-edit="s3-title">3. AI 기술에 대한 관심 — 문제 해결을 넘어 실생활로</span></h3>
-  <button type="button" class="toggle-btn" aria-expanded="false" aria-controls="panel-3">
-    근거 보기
-  </button>
-  <div id="panel-3" class="panel">
-    <ul>
-      <li><strong>상황:</strong> <span contenteditable="true" data-edit="s3-situation">기술적 문제를 해결하는 경험을 바탕으로 AI를 실제 생활의 불편함을 줄이는 데 활용하고 싶었다.</span></li>
-      <li><strong>행동:</strong> <span contenteditable="true" data-edit="s3-action">시각장애인의 보행 안전을 지원하기 위해 YOLOv8 객체 탐지와 단안 깊이 추정 기술을 결합했다.</span></li>
-      <li><strong>결과:</strong> <span contenteditable="true" data-edit="s3-result">장애물과의 거리 및 위험도를 시각화하며 AI 기술의 실생활 활용 가능성을 탐구했다.</span></li>
-      <li><strong>근거:</strong> <span contenteditable="true" data-edit="s3-evidence">시각장애인 보행 안전 프로젝트.</span></li>
-    </ul>
-    <div class="comment-box">
-      <label for="comment-3">이 강점에 대한 의견</label>
-      <textarea id="comment-3" data-key="comment-3" placeholder="의견을 남겨 주세요"></textarea>
-      <div class="btn-row">
-        <button type="button" class="toggle-btn save-comment" data-key="comment-3">댓글 저장</button>
-      </div>
-      <ul class="comment-list" id="list-3" aria-live="polite"></ul>
+  <div class="strength-card s3">
+    <div class="strength-head">
+      <span class="strength-icon" aria-hidden="true">🤖</span>
+      <h3><span contenteditable="true" data-edit="s3-title">3. AI 기술에 대한 관심 — 문제 해결을 넘어 실생활로</span></h3>
     </div>
-  </div>
-
-  </div>
+    <button type="button" class="toggle-btn" aria-expanded="false" aria-controls="panel-3">
+      근거 보기
+    </button>
+    <div id="panel-3" class="panel">
+      <ul>
+        <li><strong>상황:</strong> <span contenteditable="true" data-edit="s3-situation">기술적 문제를 해결하는 경험을 바탕으로 AI를 실제 생활의 불편함을 줄이는 데 활용하고 싶었다.</span></li>
+        <li><strong>행동:</strong> <span contenteditable="true" data-edit="s3-action">시각장애인의 보행 안전을 지원하기 위해 YOLOv8 객체 탐지와 단안 깊이 추정 기술을 결합했다.</span></li>
+        <li><strong>결과:</strong> <span contenteditable="true" data-edit="s3-result">장애물과의 거리 및 위험도를 시각화하며 AI 기술의 실생활 활용 가능성을 탐구했다.</span></li>
+        <li><strong>근거:</strong> <span contenteditable="true" data-edit="s3-evidence">시각장애인 보행 안전 프로젝트.</span></li>
+      </ul>
+      <div class="comment-box">
+        <label for="comment-3">이 강점에 대한 의견</label>
+        <textarea id="comment-3" data-key="comment-3" placeholder="의견을 남겨 주세요"></textarea>
+        <div class="btn-row">
+          <button type="button" class="toggle-btn save-comment" data-key="comment-3">댓글 저장</button>
+        </div>
+        <ul class="comment-list" id="list-3" aria-live="polite"></ul>
+      </div>
+    </div>
   </div>
 
   <script>
