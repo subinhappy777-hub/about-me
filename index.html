@@ -168,7 +168,7 @@
       line-height: 2;
     }
 
-    /* 왼쪽 추가 정보 (관심사 / 목표) */
+    /* 왼쪽 추가 정보 (관심사 / 목표 / 공개 정보) */
     .left-box .intro-info {
       width: 100%;
       max-width: 460px;
@@ -228,6 +228,7 @@
     .project-card {
       padding: 28px 0;
       border-bottom: 1px solid var(--border);
+      scroll-margin-top: 40px;
     }
 
     .project-card:last-child {
@@ -282,6 +283,7 @@
       border-radius: 12px;
       border-left: 3px solid var(--accent);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      scroll-margin-top: 40px;
     }
 
     .detail.open {
@@ -537,14 +539,32 @@
         </p>
 
         <ul class="intro-info">
+
+          <li>
+            <span class="info-label">한 줄 소개</span>
+            <span>끈기로 문제를 풀고, 배운 기술로 사람을 돕는 개발자</span>
+          </li>
+
           <li>
             <span class="info-label">관심사</span>
             <span>AI 기술 · 코딩 · 자기계발</span>
           </li>
+
           <li>
             <span class="info-label">목표</span>
-            <span>끈기로 문제를 풀고, 배운 기술로 사람을 돕는 개발자</span>
+            <span>배운 기술로 실제 문제를 해결하는 개발자</span>
           </li>
+
+          <li>
+            <span class="info-label"><strong>공개할 정보</strong></span>
+            <span>나의 프로젝트, 나의 프로젝트 근거, GitHub 주소</span>
+          </li>
+
+          <li>
+            <span class="info-label"><strong>공개하지 않을 정보</strong></span>
+            <span>나이, 주소, 전화번호</span>
+          </li>
+
         </ul>
 
       </div>
@@ -553,12 +573,10 @@
       <!-- 오른쪽 영역 -->
       <div class="right-box">
 
-        <h2>나의 강점과 프로젝트 경험</h2>
+        <h2>나의 프로젝트 경험</h2>
 
 
-        <!-- =========================
-             프로젝트 1
-        ========================= -->
+        <!-- 프로젝트 1 -->
         <div class="project-card">
 
           <h3>🌱 1. 끈기와 책임감</h3>
@@ -625,7 +643,6 @@
               연구를 이어가고 싶습니다.
             </p>
 
-            <!-- 논문 링크 -->
             <div class="paper-space">
               <span class="paper-label">📄 관련 논문 링크</span>
               <ul class="paper-list">
@@ -644,9 +661,7 @@
         </div>
 
 
-        <!-- =========================
-             프로젝트 2
-        ========================= -->
+        <!-- 프로젝트 2 -->
         <div class="project-card">
 
           <h3>🔍 2. 문제 분석과 개선</h3>
@@ -715,7 +730,6 @@
               어떤 영향을 미쳤는지 검증하고 싶습니다.
             </p>
 
-            <!-- 논문 링크 -->
             <div class="paper-space">
               <span class="paper-label">📄 관련 논문 링크</span>
               <ul class="paper-list">
@@ -734,9 +748,7 @@
         </div>
 
 
-        <!-- =========================
-             프로젝트 3
-        ========================= -->
+        <!-- 프로젝트 3 -->
         <div class="project-card">
 
           <h3>🤖 3. AI 기술에 대한 관심</h3>
@@ -805,7 +817,6 @@
               도움이 되는지 확인하며 시스템을 발전시키고 싶습니다.
             </p>
 
-            <!-- 논문 링크 -->
             <div class="paper-space">
               <span class="paper-label">📄 관련 논문 링크</span>
               <ul class="paper-list">
@@ -854,7 +865,7 @@
   <!-- JavaScript -->
   <script>
 
-    /* 프로젝트 근거 보기 */
+    /* 프로젝트 근거 보기 + 자동 스크롤 */
     function toggleDetail(id, button) {
 
       const detail = document.getElementById(id);
@@ -864,6 +875,14 @@
       button.textContent = isOpen ? "접기" : "근거 보기";
 
       button.setAttribute("aria-expanded", String(isOpen));
+
+      /* 펼쳐졌을 때 해당 상세 영역으로 부드럽게 스크롤 */
+      if (isOpen) {
+        detail.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
 
     }
 
