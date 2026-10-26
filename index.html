@@ -7,8 +7,6 @@
 
   <style>
     :root {
-      --bg: #f6f8fb;
-      --white: #ffffff;
       --text: #1f2937;
       --muted: #64748b;
       --blue: #1d4ed8;
@@ -20,13 +18,25 @@
       box-sizing: border-box;
     }
 
+    /* =========================
+       마블링 배경 (body)
+    ========================= */
     body {
       margin: 0;
-      padding: 40px 24px;
-      background: var(--bg);
+      padding: 40px 24px 60px;
       color: var(--text);
       font-family: "Malgun Gothic", sans-serif;
       line-height: 1.8;
+      min-height: 100vh;
+      background-color: #eef2f8;
+      background-image:
+        radial-gradient(circle at 12% 18%, rgba(147, 197, 253, 0.55) 0%, transparent 42%),
+        radial-gradient(circle at 88% 12%, rgba(196, 181, 253, 0.45) 0%, transparent 40%),
+        radial-gradient(circle at 78% 82%, rgba(165, 243, 252, 0.50) 0%, transparent 45%),
+        radial-gradient(circle at 18% 88%, rgba(221, 214, 254, 0.45) 0%, transparent 42%),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.65) 0%, transparent 60%),
+        linear-gradient(135deg, #f4f7fc 0%, #eaf0f9 45%, #f1ecfa 100%);
+      background-attachment: fixed;
     }
 
     /* 전체 웹페이지 */
@@ -35,49 +45,83 @@
       margin: 0 auto;
     }
 
-    /* 공통 박스 */
-    .box {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 40px;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+    /* =========================
+       상단 제목
+    ========================= */
+    .page-header {
+      text-align: center;
+      margin-bottom: 50px;
+      padding: 10px 0;
+    }
+
+    .page-header h1 {
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin: 0;
+      color: var(--text);
+    }
+
+    .page-header h1::after {
+      content: "";
+      display: block;
+      width: 70px;
+      height: 3px;
+      margin: 20px auto 0;
+      border-radius: 2px;
+      background: var(--blue);
+      opacity: 0.55;
     }
 
     /* =========================
-       하단 좌우 영역
+       마블링 콘텐츠 영역 (박스 대신 선으로 구분)
     ========================= */
-
-    .bottom-container {
+    .content {
       display: grid;
       grid-template-columns: 1fr 1.35fr;
-      gap: 32px;
+      gap: 0;
       align-items: stretch;
+      border-radius: 24px;
+      padding: 50px 0;
+      background-color: rgba(255, 255, 255, 0.55);
+      background-image:
+        radial-gradient(circle at 20% 25%, rgba(147, 197, 253, 0.30) 0%, transparent 45%),
+        radial-gradient(circle at 80% 20%, rgba(196, 181, 253, 0.26) 0%, transparent 42%),
+        radial-gradient(circle at 75% 80%, rgba(165, 243, 252, 0.28) 0%, transparent 45%),
+        radial-gradient(circle at 22% 82%, rgba(221, 214, 254, 0.26) 0%, transparent 44%),
+        linear-gradient(120deg, rgba(255,255,255,0.75) 0%, rgba(246,250,255,0.65) 50%, rgba(250,246,255,0.72) 100%);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(219, 227, 238, 0.85);
+      box-shadow: 0 8px 32px rgba(29, 78, 216, 0.06);
     }
 
     .left-box,
     .right-box {
       min-width: 0;
+      padding: 20px 50px;
+    }
+
+    /* 가운데 구분선 */
+    .right-box {
+      border-left: 1px solid rgba(29, 78, 216, 0.20);
     }
 
     /* =========================
        왼쪽 소개 영역
     ========================= */
-
     .left-box {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 70px 45px;
-      min-height: 100%;
+      padding: 40px 50px;
       position: sticky;
       top: 40px;
     }
 
     .left-box .intro-name {
-      font-size: 44px;
+      font-size: 42px;
       font-weight: 700;
       letter-spacing: -0.5px;
       margin: 0 0 20px;
@@ -85,47 +129,45 @@
     }
 
     .left-box .intro-tagline {
-      font-size: 21px;
+      font-size: 20px;
       font-weight: 600;
       color: var(--blue);
-      margin: 0 0 40px;
+      margin: 0 0 36px;
       line-height: 1.6;
-      max-width: 460px;
+      max-width: 440px;
     }
 
     .left-box .divider {
-      width: 64px;
-      height: 3px;
+      width: 58px;
+      height: 2px;
       background: var(--blue);
       border-radius: 2px;
-      margin: 0 0 40px;
-      opacity: 0.5;
+      margin: 0 0 36px;
+      opacity: 0.4;
     }
 
     .left-box .intro-greeting {
       font-size: 16px;
       color: var(--text);
       margin: 0;
-      max-width: 500px;
+      max-width: 480px;
       line-height: 2;
     }
 
     /* =========================
        오른쪽 영역
     ========================= */
-
     .right-box {
       display: flex;
       flex-direction: column;
-      padding: 42px 44px;
     }
 
-    h2 {
-      font-size: 23px;
+    .right-box h2 {
+      font-size: 22px;
       color: var(--blue);
-      margin: 0 0 28px;
+      margin: 0 0 30px;
       padding-bottom: 14px;
-      border-bottom: 2px solid var(--border);
+      border-bottom: 1px solid rgba(29, 78, 216, 0.25);
     }
 
     h3 {
@@ -134,24 +176,22 @@
     }
 
     /* =========================
-       프로젝트 카드
+       프로젝트 카드 (선 느낌)
     ========================= */
-
     .project-card {
-      background: #fbfcff;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 24px 26px;
-      margin-bottom: 22px;
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
-    }
-
-    .project-card:hover {
-      box-shadow: 0 4px 14px rgba(29, 78, 216, 0.08);
+      padding: 26px 0;
+      margin-bottom: 0;
+      border-bottom: 1px solid rgba(29, 78, 216, 0.16);
+      transition: background 0.2s ease;
     }
 
     .project-card:last-child {
-      margin-bottom: 0;
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .project-card:first-of-type {
+      padding-top: 0;
     }
 
     .project-card h3 {
@@ -162,7 +202,7 @@
     .project-card > p {
       font-size: 14px;
       color: var(--muted);
-      margin: 0 0 18px;
+      margin: 0 0 16px;
     }
 
     /* 버튼 */
@@ -193,9 +233,9 @@
       display: none;
       margin-top: 20px;
       padding: 22px 24px;
-      background: var(--light-blue);
+      background: rgba(239, 246, 255, 0.75);
       border-radius: 12px;
-      border-left: 4px solid var(--blue);
+      border-left: 3px solid var(--blue);
     }
 
     .detail.open {
@@ -229,11 +269,10 @@
     /* =========================
        댓글 영역
     ========================= */
-
     .comment-box {
       margin-top: 24px;
       padding-top: 20px;
-      border-top: 1px solid var(--border);
+      border-top: 1px dashed rgba(29, 78, 216, 0.25);
     }
 
     .comment-box h3 {
@@ -250,6 +289,7 @@
       font-family: inherit;
       font-size: 14px;
       line-height: 1.6;
+      background: rgba(255, 255, 255, 0.85);
     }
 
     .comment-box button {
@@ -268,7 +308,7 @@
       align-items: center;
       gap: 12px;
       padding: 12px 14px;
-      background: white;
+      background: rgba(255, 255, 255, 0.85);
       border: 1px solid var(--border);
       border-radius: 10px;
       margin-top: 10px;
@@ -290,21 +330,33 @@
     /* =========================
        모바일 화면
     ========================= */
-
     @media (max-width: 768px) {
       body {
-        padding: 24px 16px;
+        padding: 28px 16px 40px;
       }
 
-      .bottom-container {
+      .page-header {
+        margin-bottom: 34px;
+      }
+
+      .page-header h1 {
+        font-size: 30px;
+      }
+
+      .content {
         grid-template-columns: 1fr;
-        gap: 24px;
+        padding: 30px 0;
       }
 
       .left-box {
         position: static;
-        padding: 48px 26px;
-        min-height: auto;
+        padding: 30px 26px 40px;
+        border-bottom: 1px solid rgba(29, 78, 216, 0.20);
+      }
+
+      .right-box {
+        border-left: none;
+        padding: 40px 26px 30px;
       }
 
       .left-box .intro-name {
@@ -320,16 +372,8 @@
         margin-bottom: 28px;
       }
 
-      .right-box {
-        padding: 28px 24px;
-      }
-
-      .box {
-        padding: 26px;
-      }
-
       .project-card {
-        padding: 20px;
+        padding: 22px 0;
       }
     }
   </style>
@@ -340,18 +384,24 @@
   <main class="container">
 
     <!-- =========================
-         하단 좌우 영역
+         상단 제목
     ========================= -->
+    <header class="page-header">
+      <h1>나를 소개합니다</h1>
+    </header>
 
-    <div class="bottom-container">
+
+    <!-- =========================
+         마블링 콘텐츠 영역
+    ========================= -->
+    <div class="content">
 
       <!-- =========================
            왼쪽 영역
       ========================= -->
+      <div class="left-box">
 
-      <div class="box left-box">
-
-        <h1 class="intro-name">박수빈</h1>
+        <h2 class="intro-name">박수빈</h2>
 
         <p class="intro-tagline">
           끈기로 문제를 풀고, 배운 기술로 사람을 돕는 개발자
@@ -371,14 +421,12 @@
       <!-- =========================
            오른쪽 영역
       ========================= -->
-
-      <div class="box right-box">
+      <div class="right-box">
 
         <h2>나의 강점과 프로젝트 경험</h2>
 
 
         <!-- 프로젝트 1 -->
-
         <div class="project-card">
 
           <h3>🌱 1. 끈기와 책임감</h3>
@@ -429,7 +477,6 @@
               성능 개선의 원인을 분석하고 최적의 구조를 찾고 싶습니다.
             </p>
 
-            <!-- 댓글 영역 -->
             <div class="comment-box">
 
               <h3>이 프로젝트에 대한 의견</h3>
@@ -452,7 +499,6 @@
 
 
         <!-- 프로젝트 2 -->
-
         <div class="project-card">
 
           <h3>🔍 2. 문제 분석과 개선</h3>
@@ -503,7 +549,6 @@
               데이터 특성에 적합한 전처리 방법을 찾고 싶습니다.
             </p>
 
-            <!-- 댓글 영역 -->
             <div class="comment-box">
 
               <h3>이 프로젝트에 대한 의견</h3>
@@ -526,7 +571,6 @@
 
 
         <!-- 프로젝트 3 -->
-
         <div class="project-card">
 
           <h3>🤖 3. AI 기술에 대한 관심</h3>
@@ -578,7 +622,6 @@
               확장하고 싶습니다.
             </p>
 
-            <!-- 댓글 영역 -->
             <div class="comment-box">
 
               <h3>이 프로젝트에 대한 의견</h3>
@@ -609,11 +652,9 @@
   <!-- =========================
        JavaScript
   ========================= -->
-
   <script>
 
     /* 프로젝트 근거 보기 */
-
     function toggleDetail(id, button) {
 
       const detail = document.getElementById(id);
@@ -628,7 +669,6 @@
 
 
     /* 댓글 저장 */
-
     function saveComment(num) {
 
       const textarea = document.getElementById("comment" + num);
@@ -658,7 +698,6 @@
 
 
     /* 댓글 불러오기 */
-
     function loadComments(num) {
 
       const key = "comments" + num;
@@ -703,7 +742,6 @@
 
 
     /* 댓글 삭제 */
-
     function deleteComment(num, index) {
 
       const key = "comments" + num;
@@ -722,7 +760,6 @@
 
 
     /* 페이지 실행 시 댓글 표시 */
-
     loadComments(1);
     loadComments(2);
     loadComments(3);
