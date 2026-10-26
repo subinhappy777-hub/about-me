@@ -52,7 +52,7 @@
     }
 
     /* =========================
-       상단 제목
+       상단 제목 + 소개 문구
     ========================= */
     .page-header {
       text-align: center;
@@ -83,6 +83,16 @@
       background: var(--accent);
       opacity: 0.8;
       box-shadow: 0 0 12px rgba(110, 168, 255, 0.6);
+    }
+
+    /* 제목 아래 소개 문구 */
+    .page-header .page-description {
+      max-width: 720px;
+      margin: 26px auto 0;
+      font-size: 15px;
+      line-height: 1.9;
+      color: var(--muted);
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
     }
 
     /* =========================
@@ -417,6 +427,12 @@
         padding: 8px 16px;
       }
 
+      .page-header .page-description {
+        font-size: 14px;
+        margin-top: 20px;
+        padding: 0 8px;
+      }
+
       .content {
         grid-template-columns: 1fr;
         padding: 32px 0;
@@ -466,9 +482,17 @@
 
   <main class="container">
 
-    <!-- 상단 제목 -->
+    <!-- =========================
+         상단 제목 + 소개 문구
+    ========================= -->
     <header class="page-header">
       <h1>나를 소개합니다</h1>
+
+      <!-- 제목 아래 소개 문구 -->
+      <p class="page-description">
+        이 페이지는 나를 처음 만나는 사람에게
+        나의 관심사와 활동을 소개하기 위한 페이지입니다.
+      </p>
     </header>
 
 
@@ -508,7 +532,7 @@
         <h2>나의 강점과 프로젝트 경험</h2>
 
 
-        <!-- 프로젝트 1 -->
+        <!-- 프로젝트 1 (논문: koreascience) -->
         <div class="project-card">
 
           <h3>🌱 1. 끈기와 책임감</h3>
@@ -537,13 +561,6 @@
                     koreascience.kr 논문 보기
                   </a>
                 </li>
-                <li>
-                  <a href="https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE12877963"
-                     target="_blank"
-                     rel="noopener noreferrer">
-                    DBpia 논문 보기
-                  </a>
-                </li>
               </ul>
             </div>
 
@@ -552,7 +569,7 @@
         </div>
 
 
-        <!-- 프로젝트 2 -->
+        <!-- 프로젝트 2 (논문: DBpia) -->
         <div class="project-card">
 
           <h3>🔍 2. 문제 분석과 개선</h3>
@@ -575,13 +592,6 @@
               <span class="paper-label">📄 관련 논문 링크</span>
               <ul class="paper-list">
                 <li>
-                  <a href="https://koreascience.kr/article/JAKO202613954130602.page"
-                     target="_blank"
-                     rel="noopener noreferrer">
-                    koreascience.kr 논문 보기
-                  </a>
-                </li>
-                <li>
                   <a href="https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE12877963"
                      target="_blank"
                      rel="noopener noreferrer">
@@ -596,7 +606,7 @@
         </div>
 
 
-        <!-- 프로젝트 3 -->
+        <!-- 프로젝트 3 (논문 없음) -->
         <div class="project-card">
 
           <h3>🤖 3. AI 기술에 대한 관심</h3>
@@ -618,18 +628,10 @@
             <div class="paper-space">
               <span class="paper-label">📄 관련 논문 링크</span>
               <ul class="paper-list">
+                <!-- ▼ 3번 프로젝트 논문 링크가 있다면 아래 href에 넣어 주세요 ▼ -->
                 <li>
-                  <a href="https://koreascience.kr/article/JAKO202613954130602.page"
-                     target="_blank"
-                     rel="noopener noreferrer">
-                    koreascience.kr 논문 보기
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE12877963"
-                     target="_blank"
-                     rel="noopener noreferrer">
-                    DBpia 논문 보기
+                  <a href="#" target="_blank" rel="noopener noreferrer">
+                    논문 링크 준비 중
                   </a>
                 </li>
               </ul>
