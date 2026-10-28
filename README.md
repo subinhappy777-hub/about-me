@@ -2,7 +2,9 @@
 
 > **박수빈 (Subin Park)** 의 개인 소개 페이지입니다.  
 > 이 페이지는 나를 처음 만나는 사람에게 나의 관심사와 활동을 소개하기 위한 페이지입니다.
-🌐 GitHub Pages로 바로 플레이하기 저장소의 Settings → Pages에서 Branch를 main, 폴더를 / (root)로 설정하면, 아래 주소로 접속해 게임을 즐길 수 있습니다. 👉[https://github.com/subinhappy777-hub/about-me/](https://subinhappy777-hub.github.io/about-me/?utm_source=chatgpt.com)
+
+🌐 GitHub Pages로 바로 플레이하기 저장소의 Settings → Pages에서 Branch를 main, 폴더를 / (root)로 설정하면, 아래 주소로 접속해 게임을 즐길 수 있습니다. 
+👉[https://github.com/subinhappy777-hub/about-me/](https://subinhappy777-hub.github.io/about-me/?utm_source=chatgpt.com)
 
 ---
 
